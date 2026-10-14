@@ -39,7 +39,7 @@ Your key is stored only in your browser's local storage and sent only to Google'
 
 ## Fallback for judges
 
-- **Live deployment:** *(add Vercel URL after deploy)*
+- **Live deployment:** https://yowanda.github.io/accesskit-studio/ (GitHub Pages)
 - **Demo video:** *(add YouTube link)*
 - **Screenshots:** *(add to this folder)*
 
