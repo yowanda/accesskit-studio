@@ -58,6 +58,7 @@ Open `index.html` in any browser — no install, no keys needed. Or read the set
 
 ## Submission links
 
+- Repo: https://github.com/yowanda/accesskit-studio
 - Live demo: *(add after deploy)*
 - Demo video (2 min): *(add after recording)*
 - Slides: *(add link)*
