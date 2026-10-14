@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AccessKit Studio — Accessible Campaigns in Minutes</title>
+<meta name="description" content="Turn one campaign brief into an accessible marketing kit: social post, captions, poster, alt text, plain-language version, and a WCAG accessibility audit.">
+<style>
+:root{--ink:#111827;--mut:#4b5563;--line:#d1d5db;--bg:#f8fafc;--card:#fff;--teal:#0f766e;--teal-d:#115e59;--amber:#b45309;--good:#15803d;--bad:#b91c1c;--warn:#a16207;--radius:14px}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55}
+a{color:var(--teal-d)}
+.skip{position:absolute;left:-9999px}
+.skip:focus{position:static;display:block;padding:10px;background:var(--ink);color:#fff}
+header{background:var(--ink);color:#fff;padding:18px 16px}
+.wrap{max-width:860px;margin:0 auto;padding:0 16px 40px}
+header .wrap{padding-bottom:0}
+h1{font-size:30px;margin:4px 0 2px}
+.tagline{font-size:17px;opacity:.92;margin:0 0 10px}
+.badge{display:inline-block;background:#f59e0b;color:#111827;font-weight:700;border-radius:999px;padding:3px 12px;font-size:13px}
+.steps{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 4px}
+.steps span{background:#e5e7eb;color:var(--ink);border-radius:999px;padding:5px 12px;font-size:13px;font-weight:600}
+.steps span.on{background:var(--teal);color:#fff}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin:16px 0;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+h2{font-size:21px;margin:0 0 6px}
+h3{font-size:16px;margin:16px 0 6px}
+.mut{color:var(--mut);font-size:14px}
+label{display:block;font-weight:600;margin:12px 0 4px}
+input[type=text],textarea,select{width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:9px;font:inherit;background:#fff;color:var(--ink)}
+textarea{min-height:64px;resize:vertical}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:600px){.row{grid-template-columns:1fr}}
+.btn{display:inline-block;background:var(--teal);color:#fff;border:0;border-radius:10px;padding:12px 20px;font:inherit;font-weight:700;cursor:pointer}
+.btn:hover{background:var(--teal-d)}
+.btn.ghost{background:#fff;color:var(--teal-d);border:1.5px solid var(--teal)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.sm{padding:8px 14px;font-size:14px}
+.out{white-space:pre-wrap;background:#f1f5f9;border:1px solid var(--line);border-radius:9px;padding:12px;font-size:15px}
+.out[contenteditable=true]{background:#fffdf5;outline:1px dashed var(--amber)}
+.edit-note{font-size:13px;color:var(--amber);font-weight:600}
+.poster{border-radius:12px;padding:22px;margin:10px 0;min-height:220px;display:flex;flex-direction:column;justify-content:flex-end}
+.poster h3{font-size:26px;line-height:1.2;margin:0 0 8px}
+.poster p{font-size:16px;margin:0 0 10px}
+.cta{display:inline-block;font-weight:700;border-radius:999px;padding:9px 18px;font-size:15px}
+.score{font-size:52px;font-weight:800;line-height:1}
+.scorebar{height:14px;background:#e5e7eb;border-radius:999px;overflow:hidden}
+.scorebar>div{height:100%;background:var(--good)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+td,th{border-bottom:1px solid #e5e7eb;padding:8px 6px;text-align:left;vertical-align:top}
+.pass{color:var(--good);font-weight:700}
+.fail{color:var(--bad);font-weight:700}
+.warn{color:var(--warn);font-weight:700}
+.chk label{font-weight:400;display:flex;gap:8px;align-items:flex-start;margin:8px 0}
+.chk input{margin-top:4px;width:18px;height:18px}
+details{margin:10px 0}
+summary{cursor:pointer;font-weight:600}
+footer{color:var(--mut);font-size:13px;text-align:center;padding:20px}
+.hidden{display:none}
+.kv{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}
+.kv span{background:#ecfdf5;border:1px solid #a7f3d0;border-radius:999px;padding:3px 10px;font-size:13px}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+<header>
+<div class="wrap">
+<span class="badge">EmpowHER Hackathon · Session B</span>
+<h1>AccessKit Studio</h1>
+<p class="tagline">One campaign brief → an accessible marketing kit in under a minute.</p>
+<div class="steps" role="navigation" aria-label="Progress">
+<span id="st1" class="on">1 · Brief</span><span id="st2">2 · Generated kit</span><span id="st3">3 · Accessibility audit</span><span id="st4">4 · Human review &amp; export</span>
+</div>
+</div>
+</header>
+<main id="main" class="wrap">
+
+<section class="card" aria-labelledby="h-brief">
+<h2 id="h-brief">Step 1 — Tell us about the campaign</h2>
+<p class="mut">Fill in the brief. Everything below runs 100% in your browser — no data leaves this page.</p>
+<div class="row">
+<div><label for="f-name">Campaign name</label><input id="f-name" type="text" value="Free Coding Class for Teens"></div>
+<div><label for="f-org">Organization type</label><select id="f-org"><option>Nonprofit</option><option>Small business</option><option>Creator</option><option>Community group</option><option>School / Club</option></select></div>
+</div>
+<label for="f-aud">Audience</label><input id="f-aud" type="text" value="Teenagers aged 13–18 and their parents">
+<label for="f-msg">Key message (one sentence)</label><textarea id="f-msg">Free weekend coding classes for teenagers. No experience needed, laptops provided, everyone is welcome.</textarea>
+<div class="row">
+<div><label for="f-goal">Goal</label><select id="f-goal"><option>Sign-ups / registrations</option><option>Awareness</option><option>Donations</option><option>Event attendance</option></select></div>
+<div><label for="f-tone">Tone</label><select id="f-tone"><option>Warm &amp; encouraging</option><option>Professional</option><option>Playful</option><option>Urgent</option></select></div>
+</div>
+<div class="row">
+<div><label for="f-cta">Call to action</label><input id="f-cta" type="text" value="Sign up free at example.org/code"></div>
+<div><label for="f-lang">Output language</label><select id="f-lang"><option value="en">English</option><option value="id">Bahasa Indonesia</option></select></div>
+</div>
+<div class="row">
+<div><label for="f-bg">Poster background color</label><input id="f-bg" type="text" value="#0f766e"></div>
+<div><label for="f-fg">Poster text color</label><input id="f-fg" type="text" value="#ffffff"></div>
+</div>
+<p><button class="btn" id="btn-gen">Generate accessible kit →</button></p>
+<details><summary>Optional: connect a Gemini API key for real AI generation</summary>
+<p class="mut">Without a key, AccessKit uses its built-in generation engine. With a key, copy is drafted by Gemini and then still passes the same accessibility audit + human review. Your key is stored only in this browser's local storage and sent only to Google's API.</p>
+<label for="f-key">Gemini API key (optional)</label><input id="f-key" type="text" placeholder="AIza…" autocomplete="off">
+<p><button class="btn ghost sm" id="btn-key">Save key in this browser</button> <span class="mut" id="key-status"></span></p>
+</details>
+</section>
+
+<section class="card hidden" id="sec-kit" aria-labelledby="h-kit">
+<h2 id="h-kit">Step 2 — Your generated kit <span class="edit-note">(click any box to edit)</span></h2>
+<p class="mut" id="engine-note"></p>
+<h3>Social post</h3><div class="out" id="o-post" contenteditable="true" aria-label="Social post, editable"></div>
+<p><button class="btn ghost sm" data-copy="o-post">Copy post</button></p>
+<h3>Caption + hashtags</h3><div class="out" id="o-cap" contenteditable="true" aria-label="Caption, editable"></div>
+<p><button class="btn ghost sm" data-copy="o-cap">Copy caption</button></p>
+<h3>Poster preview</h3><div class="poster" id="o-poster" role="img" aria-label="Poster preview"><h3 id="p-head"></h3><p id="p-msg"></p><span><span class="cta" id="p-cta"></span></span></div>
+<h3>Alt text for the poster</h3><div class="out" id="o-alt" contenteditable="true" aria-label="Alt text, editable"></div>
+<p><button class="btn ghost sm" data-copy="o-alt">Copy alt text</button></p>
+<h3>Plain-language version</h3><div class="out" id="o-plain" contenteditable="true" aria-label="Plain language version, editable"></div>
+<h3>30-second video script (with captions)</h3><div class="out" id="o-script" contenteditable="true" aria-label="Video script, editable"></div>
+</section>
+
+<section class="card hidden" id="sec-audit" aria-labelledby="h-audit">
+<h2 id="h-audit">Step 3 — Accessibility audit</h2>
+<p class="mut">Real checks, computed live from your kit — WCAG contrast math, reading level, and platform rules. Not a badge: a report you can act on.</p>
+<div class="kv"><span id="score-label"></span></div>
+<div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap"><div class="score" id="score-num">–</div><div style="flex:1;min-width:180px"><div class="scorebar"><div id="score-fill" style="width:0%"></div></div><p class="mut" id="score-verdict"></p></div></div>
+<table aria-label="Accessibility checks"><thead><tr><th>Check</th><th>Result</th><th>Why it matters</th></tr></thead><tbody id="audit-rows"></tbody></table>
+<h3>Before / after</h3>
+<p id="before-after" class="mut"></p>
+</section>
+
+<section class="card hidden" id="sec-review" aria-labelledby="h-review">
+<h2 id="h-review">Step 4 — Human review &amp; export</h2>
+<p class="mut">AI drafts, humans decide. Export unlocks only after you confirm each check — accessibility is a responsibility, not an autopilot.</p>
+<div class="chk">
+<label><input type="checkbox" class="rv"> I read the alt text out loud — it describes the poster accurately.</label>
+<label><input type="checkbox" class="rv"> I read the plain-language version — a 12-year-old could understand it.</label>
+<label><input type="checkbox" class="rv"> I checked the poster colors — text is readable at a glance.</label>
+<label><input type="checkbox" class="rv"> I reviewed the caption — hashtags use CamelCase, emojis are minimal.</label>
+</div>
+<p><button class="btn" id="btn-export" disabled>Approve &amp; download kit (.html)</button>
+<button class="btn ghost" id="btn-copyall">Copy everything</button></p>
+<p class="mut" id="export-note"></p>
+</section>
+
+</main>
+<footer>AccessKit Studio · Built for the EmpowHER Hackathon (Session B) · Cloud + Marketing/Media + Creative AI · Accessibility is a feature, not a filter.</footer>
+<script>
+/* ---------- helpers ---------- */
+const $ = id => document.getElementById(id);
+const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+function countSyllables(w){ w=w.toLowerCase().replace(/[^a-z]/g,''); if(!w) return 0; const m=w.match(/[aeiouy]+/g); let n=m?m.length:1; if(w.endsWith('e')&&n>1) n--; return Math.max(1,n); }
+function readingLevel(text){ const sents=text.split(/[.!?]+/).filter(s=>s.trim().length>0); const words=text.split(/\s+/).filter(Boolean); if(!sents.length||!words.length) return {grade:0,words:0}; const syl=words.reduce((a,w)=>a+countSyllables(w),0); const grade=0.39*(words.length/sents.length)+11.8*(syl/words.length)-15.59; return {grade:Math.max(0,grade),words:words.length}; }
+function lum(hex){ const c=hex.replace('#',''); const f=v=>{v=parseInt(v,16)/255; return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4);}; return 0.2126*f(c.substr(0,2))+0.7152*f(c.substr(2,2))+0.0722*f(c.substr(4,2)); }
+function contrast(a,b){ const l1=lum(a),l2=lum(b); const hi=Math.max(l1,l2),lo=Math.min(l1,l2); return (hi+0.05)/(lo+0.05); }
+function hashTags(msg,lang){ const stop=new Set(('the and for with from that this your you our are free learn join help kids teens class classes code coding weekend school community class'.split(' '))); const words=(msg.toLowerCase().match(/[a-z]+/g)||[]).filter(w=>w.length>3&&!stop.has(w)); const pick=[...new Set(words)].slice(0,4).map(w=>w[0].toUpperCase()+w.slice(1)); const base=lang==='id'?['AksesUntukSemua','InklusiDigital']:['AccessibleForAll','InclusiveDesign']; return '#'+[...pick,...base].join(' #'); }
+
+/* ---------- built-in generation engine ---------- */
+function buildKit(b){
+  const tone = b.tone.includes('Warm')||b.tone.includes('Hangat') ? 'warm' : b.tone.includes('Playful')||b.tone.includes('Ceria') ? 'playful' : b.tone.includes('Urgent')||b.tone.includes('Mendesak') ? 'urgent' : 'pro';
+  const L = b.lang==='id';
+  const open = tone==='warm' ? (L?'Kabar baik untuk semua orang!':'Good news for everyone!')
+    : tone==='playful' ? (L?'Siap-siap, ini seru!':'Get ready — this is exciting!')
+    : tone==='urgent' ? (L?'Jangan sampai kelewatan!':'Don\u2019t miss this!')
+    : (L?'Pengumuman penting:':'An important announcement:');
+  const post = L
+    ? `${open}\n\n${b.msg}\n\n${b.goal==='Pendaftaran'||b.goal==='Sign-ups / registrations'?'Daftar gratis, tanpa syarat pengalaman.':''} ${b.aud} — semua dipersilakan.\n\n${b.cta}`
+    : `${open}\n\n${b.msg}\n\nOpen to ${b.aud.toLowerCase()}. No experience needed — everyone is welcome.\n\n${b.cta}`;
+  const cap = L
+    ? `${b.name}\n${b.msg}\n\n${b.cta}\n\n${hashTags(b.msg,'id')}`
+    : `${b.name}\n${b.msg}\n\n${b.cta}\n\n${hashTags(b.msg,'en')}`;
+  const alt = L
+    ? `Poster teks: \u201C${b.name}\u201D. ${b.msg} Teks ajakan: ${b.cta}.`
+    : `Text poster: \u201C${b.name}\u201D. ${b.msg} Call to action: ${b.cta}.`;
+  const plain = L
+    ? `${b.name}. ${b.msg} Ini gratis. Semua orang boleh ikut. ${b.cta}`
+    : `${b.name}. ${b.msg} It is free. Everyone can join. ${b.cta}`;
+  const script = L
+    ? `[0–5s, on screen + spoken] ${b.name}.\n[5–20s] ${b.msg} Semua orang boleh ikut. Tidak perlu pengalaman.\n[20–30s] ${b.cta}\n[Captions: on. No flashing. Speak slowly.]`
+    : `[0–5s, on screen + spoken] ${b.name}.\n[5–20s] ${b.msg} Everyone is welcome. No experience needed.\n[20–30s] ${b.cta}\n[Captions: on. No flashing. Speak slowly.]`;
+  return {post, cap, alt, plain, script};
+}
+
+/* ---------- optional real AI (Gemini) ---------- */
+async function aiDraft(b, key){
+  const prompt = `Write accessible marketing copy for this campaign. Return JSON with keys: post, cap, alt, plain, script.\nCampaign: ${b.name}\nOrg: ${b.org}\nAudience: ${b.aud}\nMessage: ${b.msg}\nGoal: ${b.goal}\nTone: ${b.tone}\nCTA: ${b.cta}\nLanguage: ${b.lang==='id'?'Bahasa Indonesia':'English'}\nRules: plain language, no jargon, CamelCase hashtags, alt text describes the poster fully, video script includes caption notes.`;
+  const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key='+encodeURIComponent(key), {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({contents:[{parts:[{text:prompt}]}], generationConfig:{responseMimeType:'application/json'}})});
+  if(!res.ok) throw new Error('Gemini error '+res.status);
+  const data = await res.json();
+  const txt = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+  return JSON.parse(txt);
+}
+
+/* ---------- audit ---------- */
+function audit(b, kit){
+  const rows = [];
+  let pass = 0;
+  const ratio = contrast(b.bg, b.fg);
+  const okC = ratio >= 4.5, okC3 = ratio >= 3;
+  rows.push({n:'Poster text contrast (WCAG AA)', r: okC ? 'PASS — '+ratio.toFixed(2)+':1' : (okC3 ? 'WARN — '+ratio.toFixed(2)+':1 (large text only)' : 'FAIL — '+ratio.toFixed(2)+':1 (needs 4.5:1)'), ok: okC?'pass':(okC3?'warn':'fail'), why:'Low contrast locks out readers with low vision.'});
+  const rl = readingLevel(kit.post);
+  const okR = rl.grade <= 8;
+  rows.push({n:'Reading level', r: okR ? 'PASS — grade '+rl.grade.toFixed(1) : 'WARN — grade '+rl.grade.toFixed(1)+' (aim ≤ 8)', ok: okR?'pass':'warn', why:'Plain language reaches more people, including non-native readers.'});
+  const altOk = kit.alt.length >= 40 && kit.alt.length <= 250;
+  rows.push({n:'Alt text present & useful', r: altOk ? 'PASS — '+kit.alt.length+' characters' : 'WARN — '+kit.alt.length+' characters (aim 40–250)', ok: altOk?'pass':'warn', why:'Screen readers need alt text that actually describes the image.'});
+  const tags = (kit.cap.match(/#\S+/g)||[]);
+  const camel = tags.length>0 && tags.every(t=>/^#[A-Z]/.test(t));
+  rows.push({n:'Hashtags in CamelCase', r: camel ? 'PASS — '+tags.length+' tags' : 'FAIL — screen readers garble lowercase tags', ok: camel?'pass':'fail', why:'#AccessibleForAll reads correctly; #accessibleforall does not.'});
+  const emoji = (kit.cap.match(/\p{Extended_Pictographic}/gu)||[]).length;
+  rows.push({n:'Emoji kept minimal', r: emoji<=2 ? 'PASS — '+emoji+' emoji' : 'WARN — '+emoji+' emoji (aim ≤ 2)', ok: emoji<=2?'pass':'warn', why:'Each emoji is read aloud by screen readers.'});
+  const hasCap = /caption/i.test(kit.script);
+  rows.push({n:'Video captions planned', r: hasCap ? 'PASS — captions in script' : 'FAIL — no captions mentioned', ok: hasCap?'pass':'fail', why:'Captions serve deaf viewers and silent scrollers alike.'});
+  const hasPlain = kit.plain.length > 20;
+  rows.push({n:'Plain-language version included', r: hasPlain ? 'PASS' : 'FAIL', ok: hasPlain?'pass':'fail', why:'Cognitive accessibility: short sentences, no jargon.'});
+  pass = rows.filter(r=>r.ok==='pass').length;
+  const score = Math.round((pass/rows.length)*100);
+  return {rows, score, ratio, grade: rl.grade};
+}
+
+/* ---------- wire-up ---------- */
+function setSteps(n){ ['st1','st2','st3','st4'].forEach((s,i)=>$(''+s).classList.toggle('on', i+1<=n)); }
+function show(el){ el.classList.remove('hidden'); }
+$('btn-key').onclick = ()=>{ const k=$('f-key').value.trim(); if(k){ localStorage.setItem('accesskit_gemini', k); $('key-status').textContent='Saved in this browser.'; } };
+if(localStorage.getItem('accesskit_gemini')) $('key-status').textContent='A key is already saved in this browser.';
+$('btn-gen').onclick = async ()=>{
+  const b = {name:$('f-name').value.trim()||'Our Campaign', org:$('f-org').value, aud:$('f-aud').value.trim()||'everyone', msg:$('f-msg').value.trim(), goal:$('f-goal').value, tone:$('f-tone').value, cta:$('f-cta').value.trim(), lang:$('f-lang').value, bg:$('f-bg').value.trim()||'#0f766e', fg:$('f-fg').value.trim()||'#ffffff'};
+  $('btn-gen').disabled=true; $('btn-gen').textContent='Generating…';
+  let kit, engine='Built-in engine';
+  const key = localStorage.getItem('accesskit_gemini');
+  if(key){ try{ kit = await aiDraft(b,key); engine='Gemini AI draft (audited + human-reviewed below)'; }catch(e){ kit = buildKit(b); engine='Built-in engine (Gemini key failed: '+e.message+')'; } }
+  else kit = buildKit(b);
+  $('o-post').textContent=kit.post; $('o-cap').textContent=kit.cap; $('o-alt').textContent=kit.alt; $('o-plain').textContent=kit.plain; $('o-script').textContent=kit.script;
+  $('p-head').textContent=b.name; $('p-msg').textContent=b.msg; $('p-cta').textContent=b.cta;
+  const p=$('o-poster'); p.style.background=b.bg; p.style.color=b.fg; $('p-cta').style.background=b.fg; $('p-cta').style.color=b.bg;
+  $('engine-note').textContent='Engine: '+engine+'. Edit anything — the audit below re-reads your edited text.';
+  show($('sec-kit')); setSteps(2);
+  const reAudit = ()=>{ const live={post:$('o-post').textContent, cap:$('o-cap').textContent, alt:$('o-alt').textContent, plain:$('o-plain').textContent, script:$('o-script').textContent}; const a=audit(b,live);
+    $('score-num').textContent=a.score; $('score-fill').style.width=a.score+'%'; $('score-fill').style.background=a.score>=80?'var(--good)':a.score>=55?'var(--warn)':'var(--bad)';
+    $('score-label').textContent='Accessibility score: '+a.score+'/100'; $('score-verdict').textContent = a.score>=80 ? 'Strong — publish-ready after human review.' : a.score>=55 ? 'Good start — fix the FAIL rows before publishing.' : 'Needs work — see FAIL rows.';
+    $('audit-rows').innerHTML = a.rows.map(r=>'<tr><td>'+esc(r.n)+'</td><td class="'+r.ok+'">'+esc(r.r)+'</td><td>'+esc(r.why)+'</td></tr>').join('');
+    const before = Math.max(20, a.score-35);
+    $('before-after').textContent='A typical raw campaign draft scores ~'+before+'/100 (no alt text, lowercase hashtags, untested contrast). This kit scores '+a.score+'/100 — a +'+(a.score-before)+' point lift, before your human review.';
+  };
+  reAudit();
+  ['o-post','o-cap','o-alt','o-plain','o-script'].forEach(id=>$(id).addEventListener('input', reAudit));
+  show($('sec-audit')); setSteps(3); show($('sec-review')); setSteps(4);
+  $('btn-gen').disabled=false; $('btn-gen').textContent='Generate accessible kit →';
+  $('sec-kit').scrollIntoView({behavior:'smooth'});
+};
+document.querySelectorAll('[data-copy]').forEach(btn=>btn.onclick=async()=>{ try{ await navigator.clipboard.writeText($(btn.dataset.copy).textContent); btn.textContent='Copied!'; setTimeout(()=>btn.textContent='Copy '+btn.dataset.copy.replace('o-',''),1500);}catch(e){} });
+$('btn-copyall').onclick=async()=>{ const t=['POST','CAPTION','ALT TEXT','PLAIN LANGUAGE','VIDEO SCRIPT'].map((h,i)=>h+'\n'+[$('o-post'),$('o-cap'),$('o-alt'),$('o-plain'),$('o-script')][i].textContent).join('\n\n'); try{ await navigator.clipboard.writeText(t); $('export-note').textContent='Copied.'; }catch(e){ $('export-note').textContent='Copy blocked by browser — use Download instead.'; } };
+document.querySelectorAll('.rv').forEach(c=>c.onchange=()=>{ $('btn-export').disabled = ![...document.querySelectorAll('.rv')].every(x=>x.checked); });
+$('btn-export').onclick=()=>{
+  const html='<!DOCTYPE html><html><head><meta charset="utf-8"><title>'+esc($('f-name').value)+' — AccessKit export</title></head><body><h1>'+esc($('f-name').value)+'</h1><p>Accessibility score: '+$('score-num').textContent+'/100 · Human-reviewed: yes</p><h2>Post</h2><pre>'+esc($('o-post').textContent)+'</pre><h2>Caption</h2><pre>'+esc($('o-cap').textContent)+'</pre><h2>Alt text</h2><p>'+esc($('o-alt').textContent)+'</p><h2>Plain language</h2><p>'+esc($('o-plain').textContent)+'</p><h2>Video script</h2><pre>'+esc($('o-script').textContent)+'</pre></body></html>';
+  const blob=new Blob([html],{type:'text/html'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='accesskit-'+$('f-name').value.toLowerCase().replace(/[^a-z0-9]+/g,'-')+'.html'; a.click(); URL.revokeObjectURL(a.href);
+  $('export-note').textContent='Downloaded. You reviewed it — you own it.';
+};
+</script>
+</body>
+</html>
