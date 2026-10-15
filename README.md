@@ -28,8 +28,8 @@ Finally, **human review**: export unlocks only after you confirm 4 checks. AI dr
 - **Frontend:** single-file HTML + CSS + vanilla JavaScript — zero install, runs anywhere
 - **AI:** built-in generation engine by default; optional Google Gemini (2.0 Flash) draft mode via a user-supplied API key stored only in the browser's local storage
 - **Accessibility engine:** real WCAG 2.1 relative-luminance contrast math, Flesch-Kincaid-style reading-level estimate, platform hashtag/caption rules
-- **Cloud:** static hosting (Vercel) + serverless AI call path; no user data leaves the browser except the optional Gemini request
-- **Built With:** HTML, CSS, JavaScript, Gemini API, WCAG 2.1, Vercel
+- **Cloud:** static hosting on GitHub Pages; no user data leaves the browser except the optional Gemini request
+- **Built With:** HTML, CSS, JavaScript, Gemini API, WCAG 2.1, GitHub Pages
 
 ## Challenges we ran into
 

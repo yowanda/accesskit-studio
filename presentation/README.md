@@ -24,7 +24,7 @@ Narrate every click. "I generate… the kit appears… the audit scores it… I 
 
 ## Slide 5 — How it works (20s)
 
-Simple diagram: Brief → Generation (built-in engine + optional Gemini) → Audit (WCAG contrast math, reading level, platform rules) → Human review gate → Export. Static hosting on Vercel; no user data leaves the browser except the optional AI call.
+Simple diagram: Brief → Generation (built-in engine + optional Gemini) → Audit (WCAG contrast math, reading level, platform rules) → Human review gate → Export. Static hosting on GitHub Pages; no user data leaves the browser except the optional AI call.
 
 ## Slide 6 — Impact (15s)
 

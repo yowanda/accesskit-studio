@@ -11,4 +11,4 @@ Use this to test AccessKit Studio (it's also the pre-loaded default in the app).
 - **Call to action:** Sign up free at example.org/code
 - **Poster colors:** background #0f766e, text #ffffff (WCAG AA: 5.47:1)
 
-Expected result: a full kit scoring ~86/100, with the audit passing contrast, reading level, alt text, hashtags, emoji, captions, and plain-language checks.
+Expected result: a full kit scoring 100/100, with the audit passing contrast, reading level, alt text, hashtags, emoji, captions, and plain-language checks.

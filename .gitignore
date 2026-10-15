@@ -1,0 +1,8 @@
+# Temp / working files — never commit these
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+# Screenshot working files at repo root (gallery assets live in screenshots/)
+/cover.png
+/screenshot*.png

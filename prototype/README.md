@@ -57,7 +57,7 @@ Your key is stored only in your browser's local storage and sent only to Google'
    │                    └── optional: Gemini API (user key, localStorage only)
    ├── Audit engine ──> WCAG contrast math + reading level + platform rules ──> Score 0–100
    └── Human review gate (4 checkboxes) ──> Export (.html download)
-[ Static hosting: Vercel ] — no backend, no database, no user data stored
+[ Static hosting: GitHub Pages ] — no backend, no database, no user data stored
 ```
 
 One sentence per box: the brief feeds the generator; the generator feeds the audit; the audit feeds the human; the human unlocks the export.

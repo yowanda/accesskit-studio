@@ -23,8 +23,8 @@ Type a campaign brief and AccessKit generates a complete kit: social post, capti
 - **Frontend:** single-file HTML + CSS + vanilla JavaScript (zero install)
 - **AI:** built-in generation engine by default; optional Google Gemini 2.0 Flash draft mode via a user-supplied key (stored only in browser local storage)
 - **Accessibility engine:** real WCAG 2.1 relative-luminance contrast math, Flesch-Kincaid-style reading-level estimate, platform hashtag/caption rules
-- **Cloud / Deployment:** static hosting on Vercel + serverless AI call path; no user data leaves the browser except the optional Gemini request
-- **Built With:** HTML, CSS, JavaScript, Gemini API, WCAG 2.1, Vercel
+- **Cloud / Deployment:** static hosting on GitHub Pages; no user data leaves the browser except the optional Gemini request
+- **Built With:** HTML, CSS, JavaScript, Gemini API, WCAG 2.1, GitHub Pages
 
 ## Challenges we ran into
 

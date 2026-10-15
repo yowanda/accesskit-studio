@@ -149,7 +149,7 @@ const $ = id => document.getElementById(id);
 const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 function countSyllables(w){ w=w.toLowerCase().replace(/[^a-z]/g,''); if(!w) return 0; const m=w.match(/[aeiouy]+/g); let n=m?m.length:1; if(w.endsWith('e')&&n>1) n--; return Math.max(1,n); }
 function readingLevel(text){ const sents=text.split(/[.!?]+/).filter(s=>s.trim().length>0); const words=text.split(/\s+/).filter(Boolean); if(!sents.length||!words.length) return {grade:0,words:0}; const syl=words.reduce((a,w)=>a+countSyllables(w),0); const grade=0.39*(words.length/sents.length)+11.8*(syl/words.length)-15.59; return {grade:Math.max(0,grade),words:words.length}; }
-function lum(hex){ const c=hex.replace('#',''); const f=v=>{v=parseInt(v,16)/255; return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4);}; return 0.2126*f(c.substr(0,2))+0.7152*f(c.substr(2,2))+0.0722*f(c.substr(4,2)); }
+function lum(hex){ const c=String(hex||'').replace('#',''); const f=v=>{v=parseInt(v,16)/255; if(Number.isNaN(v)) return 0; return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4);}; return 0.2126*f(c.substr(0,2))+0.7152*f(c.substr(2,2))+0.0722*f(c.substr(4,2)); }
 function contrast(a,b){ const l1=lum(a),l2=lum(b); const hi=Math.max(l1,l2),lo=Math.min(l1,l2); return (hi+0.05)/(lo+0.05); }
 function hashTags(msg,lang){ const stop=new Set(('the and for with from that this your you our are free learn join help kids teens class classes code coding weekend school community class'.split(' '))); const words=(msg.toLowerCase().match(/[a-z]+/g)||[]).filter(w=>w.length>3&&!stop.has(w)); const pick=[...new Set(words)].slice(0,4).map(w=>w[0].toUpperCase()+w.slice(1)); const base=lang==='id'?['AksesUntukSemua','InklusiDigital']:['AccessibleForAll','InclusiveDesign']; return '#'+[...pick,...base].join(' #'); }
 
@@ -218,10 +218,23 @@ function audit(b, kit){
 /* ---------- wire-up ---------- */
 function setSteps(n){ ['st1','st2','st3','st4'].forEach((s,i)=>$(''+s).classList.toggle('on', i+1<=n)); }
 function show(el){ el.classList.remove('hidden'); }
+let currentBrief = null;
+function reAudit(){
+  if(!currentBrief) return;
+  const b = currentBrief;
+  const live={post:$('o-post').textContent, cap:$('o-cap').textContent, alt:$('o-alt').textContent, plain:$('o-plain').textContent, script:$('o-script').textContent}; const a=audit(b,live);
+  $('score-num').textContent=a.score; $('score-fill').style.width=a.score+'%'; $('score-fill').style.background=a.score>=80?'var(--good)':a.score>=55?'var(--warn)':'var(--bad)';
+  $('score-label').textContent='Accessibility score: '+a.score+'/100'; $('score-verdict').textContent = a.score>=80 ? 'Strong — publish-ready after human review.' : a.score>=55 ? 'Good start — fix the FAIL rows before publishing.' : 'Needs work — see FAIL rows.';
+  $('audit-rows').innerHTML = a.rows.map(r=>'<tr><td>'+esc(r.n)+'</td><td class="'+r.ok+'">'+esc(r.r)+'</td><td>'+esc(r.why)+'</td></tr>').join('');
+  const before = Math.max(20, a.score-35);
+  $('before-after').textContent='A typical raw campaign draft scores ~'+before+'/100 (no alt text, lowercase hashtags, untested contrast). This kit scores '+a.score+'/100 — a +'+(a.score-before)+' point lift, before your human review.';
+}
+['o-post','o-cap','o-alt','o-plain','o-script'].forEach(id=>$(id).addEventListener('input', reAudit));
 $('btn-key').onclick = ()=>{ const k=$('f-key').value.trim(); if(k){ localStorage.setItem('accesskit_gemini', k); $('key-status').textContent='Saved in this browser.'; } };
 if(localStorage.getItem('accesskit_gemini')) $('key-status').textContent='A key is already saved in this browser.';
 $('btn-gen').onclick = async ()=>{
-  const b = {name:$('f-name').value.trim()||'Our Campaign', org:$('f-org').value, aud:$('f-aud').value.trim()||'everyone', msg:$('f-msg').value.trim(), goal:$('f-goal').value, tone:$('f-tone').value, cta:$('f-cta').value.trim(), lang:$('f-lang').value, bg:$('f-bg').value.trim()||'#0f766e', fg:$('f-fg').value.trim()||'#ffffff'};
+  const validHex = h => /^#[0-9a-fA-F]{6}$/.test(h) ? h : null;
+  const b = {name:$('f-name').value.trim()||'Our Campaign', org:$('f-org').value, aud:$('f-aud').value.trim()||'everyone', msg:$('f-msg').value.trim(), goal:$('f-goal').value, tone:$('f-tone').value, cta:$('f-cta').value.trim(), lang:$('f-lang').value, bg:validHex($('f-bg').value.trim())||'#0f766e', fg:validHex($('f-fg').value.trim())||'#ffffff'};
   $('btn-gen').disabled=true; $('btn-gen').textContent='Generating…';
   let kit, engine='Built-in engine';
   const key = localStorage.getItem('accesskit_gemini');
@@ -232,15 +245,8 @@ $('btn-gen').onclick = async ()=>{
   const p=$('o-poster'); p.style.background=b.bg; p.style.color=b.fg; $('p-cta').style.background=b.fg; $('p-cta').style.color=b.bg;
   $('engine-note').textContent='Engine: '+engine+'. Edit anything — the audit below re-reads your edited text.';
   show($('sec-kit')); setSteps(2);
-  const reAudit = ()=>{ const live={post:$('o-post').textContent, cap:$('o-cap').textContent, alt:$('o-alt').textContent, plain:$('o-plain').textContent, script:$('o-script').textContent}; const a=audit(b,live);
-    $('score-num').textContent=a.score; $('score-fill').style.width=a.score+'%'; $('score-fill').style.background=a.score>=80?'var(--good)':a.score>=55?'var(--warn)':'var(--bad)';
-    $('score-label').textContent='Accessibility score: '+a.score+'/100'; $('score-verdict').textContent = a.score>=80 ? 'Strong — publish-ready after human review.' : a.score>=55 ? 'Good start — fix the FAIL rows before publishing.' : 'Needs work — see FAIL rows.';
-    $('audit-rows').innerHTML = a.rows.map(r=>'<tr><td>'+esc(r.n)+'</td><td class="'+r.ok+'">'+esc(r.r)+'</td><td>'+esc(r.why)+'</td></tr>').join('');
-    const before = Math.max(20, a.score-35);
-    $('before-after').textContent='A typical raw campaign draft scores ~'+before+'/100 (no alt text, lowercase hashtags, untested contrast). This kit scores '+a.score+'/100 — a +'+(a.score-before)+' point lift, before your human review.';
-  };
+  currentBrief = b;
   reAudit();
-  ['o-post','o-cap','o-alt','o-plain','o-script'].forEach(id=>$(id).addEventListener('input', reAudit));
   show($('sec-audit')); setSteps(3); show($('sec-review')); setSteps(4);
   $('btn-gen').disabled=false; $('btn-gen').textContent='Generate accessible kit →';
   $('sec-kit').scrollIntoView({behavior:'smooth'});
